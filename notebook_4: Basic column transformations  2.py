@@ -23,7 +23,7 @@ from pyspark.sql.types import StructType,StringType,DateType,IntegerType,StructF
 
 csv_file_schema=StructType([StructField('index', IntegerType(), True), StructField('customer_id', StringType(), True), StructField('first_name', StringType(), True), StructField('last_name', StringType(), True), StructField('company', StringType(), True), StructField('city', StringType(), True), StructField('country', StringType(), True), StructField('phone_1', StringType(), True), StructField('phone_2', StringType(), True), StructField('email', StringType(), True), StructField('subscription_date', DateType(), True), StructField('website', StringType(), True)])
 
-csvDf=spark.read.format('csv').options(header="true").schema(csv_file_schema).load("/Volumes/eds_external_ingestion_source/landingzone/sources/landingzone/customer/*")
+csvDf=spark.read.format('csv').options(header="true").schema(csv_file_schema).load("/Volumes/edsingestion_ext_src/landingzone/source/customer/*")
 display(csvDf)
 
 # COMMAND ----------
@@ -83,3 +83,42 @@ display(trimhleadingTrailingSpacesDf)
 # Ans 8 replace a character present inside a string with another string.
 replaceCharacterDf=csvDf.withColumn("phone1replace",replace(trim(col("phone_1")),lit("+1-"),lit("")))
 display(replaceCharacterDf)
+
+# COMMAND ----------
+
+# Ans 9 check the first starting characters of a string 
+from pyspark.sql.functions import *
+checkFirstCharacterDf=csvDf.withColumn("has_country_code",when(trim(col("phone_1")).startswith(lit("+1-")),"Yes").otherwise("No"))
+display(checkFirstCharacterDf)
+
+# COMMAND ----------
+
+# Ans 10 check the  ending characters of a string 
+from pyspark.sql.functions import *
+checkLastCharacterDf=csvDf.withColumn("ends_with_org",when(trim(col("email")).endswith(lit(".com")),"Yes").otherwise("No"))
+display(checkLastCharacterDf)
+
+# COMMAND ----------
+
+#Ans 11 Concatenate a string
+from pyspark.sql.functions import *
+concatDf=csvDf.withColumn("full_name",concat(col("first_name"),lit(" "),col("last_name"))).drop("first_name","last_name")
+display(concatDf)
+
+
+# COMMAND ----------
+
+from pyspark.sql.functions import col, date_format, substring, instr
+
+# Ans 12: find the position of a character in a string and use it to extract a substing.
+extractSubstingDf = csvDf.withColumn("instrposition", instr(date_format(col("subscription_date"), "yyyy-MM-dd"),"-"))
+extractSubstingDf.printSchema()
+display(extractSubstingDf)
+
+# COMMAND ----------
+
+from pyspark.sql.functions import regexp_replace
+
+# Ans 13 : Remove special charaters from a string.
+cleanedDf = csvDf.withColumn("special_char",lit("hi@#$!")).withColumn("clean_char", regexp_replace(col("special_char"), "[@#$!]", ""))
+display(cleanedDf)
