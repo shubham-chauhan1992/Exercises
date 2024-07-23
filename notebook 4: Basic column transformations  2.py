@@ -83,7 +83,3 @@ display(trimhleadingTrailingSpacesDf)
 # Ans 8 replace a character present inside a string with another string.
 replaceCharacterDf=csvDf.withColumn("phone1replace",replace(trim(col("phone_1")),lit("+1-"),lit("")))
 display(replaceCharacterDf)
-
-# COMMAND ----------
-
-
