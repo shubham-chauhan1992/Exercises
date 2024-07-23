@@ -12,7 +12,7 @@
 
 # MAGIC %sql
 # MAGIC show catalogs;
-# MAGIC use catalog external_ingestion_sources;
+# MAGIC use catalog eds_external_ingestion_source;
 # MAGIC show schemas;
 
 # COMMAND ----------

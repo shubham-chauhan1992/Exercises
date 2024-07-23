@@ -44,14 +44,14 @@
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC select *from csv.`/Volumes/eds_external_location/lob/ingestion`
+# MAGIC select *from csv.`/Volumes/eds_external_ingestion_source/landingzone/sources/landingzone/customer/`
 
 # COMMAND ----------
 
-df=spark.read.format("csv").options(header="true",inferSchema="true").load("/Volumes/eds_external_location/lob/ingestion")
+df=spark.read.format("csv").options(header="true",inferSchema="true").load("/Volumes/eds_external_ingestion_source/landingzone/sources/landingzone/customer/")
 display(df)
 
 # COMMAND ----------
 
-df=spark.sql("""select *from csv.`/Volumes/eds_external_location/lob/ingestion`""").
+df=spark.sql("""select *from csv.`/Volumes/eds_external_ingestion_source/landingzone/sources/landingzone/customer/`""")
 display(df)
