@@ -1,7 +1,12 @@
 # Databricks notebook source
 # MAGIC %sql
-# MAGIC create table edsmanaged.bronze.crm(customer_id int ,first_name string,last_name string,phone_number string,email string,dob string,join_date string,hash_val string) USING DELTA
+# MAGIC create table edsmanaged.retail.crm2(customer_id int ,first_name string,last_name string,phone_number string,email string,dob string,join_date string,hash_val string) USING DELTA
 # MAGIC  
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC describe history edsmanaged.retail.crm
 
 # COMMAND ----------
 
